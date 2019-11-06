@@ -35,6 +35,8 @@ class PlanetList extends React.Component {
           isError: false,
         });
       }, 2000);
+    } else {
+      // todo Add tips for cancel button ("Please send request")
     }
   };
 
@@ -95,7 +97,7 @@ class PlanetList extends React.Component {
       text = "Loading";
       disabled = true;
     } else if (isCancel) {
-      text = "Canceled by user";
+      text = "Canceled. Get again";
     } else if (isError) {
       text = "Error";
     }

@@ -1,0 +1,12 @@
+.PlanetList__btn {
+    min-width: 150px;
+    padding: .5em .75em;
+    border: 1px solid white;
+    background: #09d3ac;
+    color: #000;
+}
+
+.PlanetList__actions {
+    margin-top: 2em;
+    text-align: center;
+}

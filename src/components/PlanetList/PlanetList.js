@@ -9,6 +9,12 @@ import './PlanetList.css';
 class PlanetList extends React.Component {
 
   baseURL = 'https://swapi.co/api/';
+
+  /**
+   * Cancel token
+   * @type {null}
+   * @private
+   */
   _source = null;
 
   state = {

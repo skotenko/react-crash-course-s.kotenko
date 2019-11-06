@@ -38,13 +38,7 @@ class PlanetList extends React.Component {
     }
   };
 
-  onSend = () => {
-    this.setState({
-      isLoading: true,
-      isError: false,
-      isCancel: false,
-    });
-
+  fetchPlanets = () => {
     this._source = axios.CancelToken.source();
 
     axios.get(`${this.baseURL}planets/`, {cancelToken: this._source.token})
@@ -76,6 +70,20 @@ class PlanetList extends React.Component {
           }
         }
       });
+  };
+
+  onSend = () => {
+    if (!this.state.isLoading) {
+      this.setState({
+        isLoading: true,
+        isError: false,
+        isCancel: false,
+      });
+
+      this.fetchPlanets();
+    } else {
+      // todo Add tips for request button ("Please wait, or cancel request")
+    }
   };
 
   render() {

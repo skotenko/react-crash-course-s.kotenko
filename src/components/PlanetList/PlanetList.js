@@ -2,6 +2,8 @@ import React from 'react';
 import axios from 'axios';
 import uuidv1 from 'uuid/v1';
 import PlanetItem from "../PlanetItem/PlanetItem";
+import ErrorIndicator from "../ErrorIndicator/ErrorIndicator";
+import Spinner from "../Spinner/Spinner";
 import './PlanetList.css';
 
 class PlanetList extends React.Component {
@@ -45,6 +47,7 @@ class PlanetList extends React.Component {
         isLoading: true,
         isError: false,
         isCancel: false,
+        planets: [],
       });
 
       this.fetchPlanets();
@@ -73,6 +76,8 @@ class PlanetList extends React.Component {
           // handle error
           this.setState({
             isError: true,
+            isLoading: false,
+            isCancel: false,
             planets: [],
           });
 
@@ -98,8 +103,12 @@ class PlanetList extends React.Component {
     } else if (isCancel) {
       text = "Canceled. Get again";
     } else if (isError) {
-      text = "Error";
+      text = "Error. Try again";
     }
+
+    const errorMessage = isError ? <ErrorIndicator/> : null;
+    const spinner = isLoading ? <Spinner/> : null;
+    // const content = hasData ? <PlanetView planet={planet}/> : null;
 
     return (
       <div className="PlanetList">
@@ -108,6 +117,8 @@ class PlanetList extends React.Component {
           <button onClick={this.onCancelHandler} className="PlanetList__btn">Cancel Request</button>
         </div>
         <h2>The Star Wars Planets:</h2>
+        {errorMessage}
+        {spinner}
         <ol className="PlanetList__list">
           {
             planets.map(item => {
@@ -116,6 +127,7 @@ class PlanetList extends React.Component {
             })
           }
         </ol>
+
       </div>
     );
   };

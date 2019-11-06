@@ -16,8 +16,7 @@ class PlanetList extends React.Component {
     planets: [],
   };
 
-  onCancel = () => {
-
+  onCancelHandler = () => {
     if (this.state.isLoading) {
       this.setState({
         isLoading: false,
@@ -37,6 +36,20 @@ class PlanetList extends React.Component {
       }, 2000);
     } else {
       // todo Add tips for cancel button ("Please send request")
+    }
+  };
+
+  onSendHandler = () => {
+    if (!this.state.isLoading) {
+      this.setState({
+        isLoading: true,
+        isError: false,
+        isCancel: false,
+      });
+
+      this.fetchPlanets();
+    } else {
+      // todo Add tips for request button ("Please wait, or cancel request")
     }
   };
 
@@ -74,20 +87,6 @@ class PlanetList extends React.Component {
       });
   };
 
-  onSend = () => {
-    if (!this.state.isLoading) {
-      this.setState({
-        isLoading: true,
-        isError: false,
-        isCancel: false,
-      });
-
-      this.fetchPlanets();
-    } else {
-      // todo Add tips for request button ("Please wait, or cancel request")
-    }
-  };
-
   render() {
     const {planets, isLoading, isError, isCancel} = this.state;
     let text = "Get planets";
@@ -105,8 +104,8 @@ class PlanetList extends React.Component {
     return (
       <div className="PlanetList">
         <div className="PlanetList__actions">
-          <button onClick={this.onSend} disabled={disabled} className="PlanetList__btn">{text}</button>
-          <button onClick={this.onCancel} className="PlanetList__btn">Cancel Request</button>
+          <button onClick={this.onSendHandler} disabled={disabled} className="PlanetList__btn">{text}</button>
+          <button onClick={this.onCancelHandler} className="PlanetList__btn">Cancel Request</button>
         </div>
         <h2>The Star Wars Planets:</h2>
         <ol className="PlanetList__list">

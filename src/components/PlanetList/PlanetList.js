@@ -77,7 +77,7 @@ class PlanetList extends React.Component {
       .catch(error => {
 
         if (axios.isCancel(error)) {
-          console.log('Request canceled', error.message);
+          console.info('Request canceled', error.message);
         } else {
           // handle error
           this.setState({

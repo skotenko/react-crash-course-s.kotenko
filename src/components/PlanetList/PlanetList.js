@@ -42,8 +42,6 @@ class PlanetList extends React.Component {
           isError: false,
         });
       }, 2000);
-    } else {
-      // todo Add tips for cancel button ("Please send request")
     }
   };
 
@@ -57,8 +55,6 @@ class PlanetList extends React.Component {
       });
 
       this.fetchPlanets();
-    } else {
-      // todo Add tips for request button ("Please wait, or cancel request")
     }
   };
 
@@ -114,7 +110,6 @@ class PlanetList extends React.Component {
 
     const errorMessage = isError ? <ErrorIndicator/> : null;
     const spinner = isLoading ? <Spinner/> : null;
-    // const content = hasData ? <PlanetView planet={planet}/> : null;
 
     return (
       <div className="PlanetList">

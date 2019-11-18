@@ -1,8 +1,6 @@
 import React from 'react';
 
-function PlanetItem(props) {
-  const {name, uuid} = props;
-
+function PlanetItem({name, uuid}) {
   return (
     <li key={uuid}>{name}</li>
   );

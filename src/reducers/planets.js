@@ -3,7 +3,7 @@ import {
   FETCH_PLANETS_FAILURE,
   FETCH_PLANETS_SUCCESS,
   FETCH_PLANETS_CANCELED,
-} from "../../constants/actions";
+} from "../constants/actions";
 
 const initialState = {
   planets: [],

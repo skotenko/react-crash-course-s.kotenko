@@ -13,8 +13,6 @@ function PlanetList() {
   const _source = axios.CancelToken.source();
 
   useEffect(() => {
-    console.log('useEffect');
-
     fetchPlanets();
   }, []);
 

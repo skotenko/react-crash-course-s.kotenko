@@ -1,4 +1,5 @@
 import React from 'react';
+import {Provider} from 'react-redux'
 import Actions from "./components/ActionsList/Actions";
 import PlanetList from "./components/PlanetList/PlanetList";
 
@@ -10,15 +11,17 @@ import logo from './logo.svg';
 class App extends React.Component {
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo"/>
-        </header>
-        <main className="App-main">
-          <Actions/>
-          <PlanetList/>
-        </main>
-      </div>
+      <Provider store={store}>
+        <div className="App">
+          <header className="App-header">
+            <img src={logo} className="App-logo" alt="logo"/>
+          </header>
+          <main className="App-main">
+            <Actions/>
+            <PlanetList/>
+          </main>
+        </div>
+      </Provider>
     );
   }
 }

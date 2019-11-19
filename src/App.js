@@ -1,7 +1,7 @@
 import React from 'react';
 import {Provider} from 'react-redux'
 import Actions from "./components/ActionsList/Actions";
-import PlanetList from "./components/PlanetList/PlanetList";
+import PlanetListUI from "./components/PlanetList/PlanetListUI";
 
 import store from './store';
 
@@ -18,7 +18,7 @@ class App extends React.Component {
           </header>
           <main className="App-main">
             <Actions/>
-            <PlanetList/>
+            <PlanetListUI/>
           </main>
         </div>
       </Provider>

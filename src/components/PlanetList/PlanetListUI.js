@@ -1,15 +1,18 @@
-import React from 'react';
+import React, {useReducer} from 'react';
+import {planetsReducer, initialState} from '../../reducers/planets';
 import uuidv1 from 'uuid/v1';
 import PlanetItem from "../PlanetItem/PlanetItem";
 import ErrorIndicator from "../ErrorIndicator/ErrorIndicator";
 import Spinner from "../Spinner/Spinner";
+import './PlanetList.css';
 
 
-function PlanetListUI({isError, isLoading, isCancel, planets}) {
+function PlanetListUI() {
+  const [state] = useReducer(planetsReducer, initialState);
 
-  let errorMessage = isError ? <ErrorIndicator/> : null;
-  let loadingMessage = isLoading ? <Spinner/> : null;
-  let cancelMessage = isCancel ? <div>Canceled</div> : null;
+  const errorMessage = state.isError ? <ErrorIndicator/> : null;
+  const loadingMessage = state.isLoading ? <Spinner/> : null;
+  const cancelMessage = state.isCancel ? <div>Canceled</div> : null;
 
   return (
     <>
@@ -18,7 +21,7 @@ function PlanetListUI({isError, isLoading, isCancel, planets}) {
       {cancelMessage}
       <ol className="PlanetList__list">
         {
-          planets.map(item => {
+          state.planets.map(item => {
             const uuid = uuidv1();
             return <PlanetItem key={uuid} name={item.name}/>;
           })

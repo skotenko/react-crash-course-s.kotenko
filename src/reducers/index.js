@@ -1,6 +1,8 @@
 import { combineReducers } from 'redux';
-import planets from './planets';
+import { planetsReducer } from './planets';
 
-export default combineReducers({
-  planets,
+let rootReducer =  combineReducers({
+  planetsReducer,
 });
+
+export default rootReducer;

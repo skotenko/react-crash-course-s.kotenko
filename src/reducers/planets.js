@@ -1,22 +1,20 @@
-import {
-  FETCH_PLANETS_REQUEST,
-  FETCH_PLANETS_FAILURE,
-  FETCH_PLANETS_SUCCESS,
-  FETCH_PLANETS_CANCELED,
-} from "../constants/actions";
+import axios from "axios";
 
-const initialState = {
+import {FETCH_PLANETS_REQUEST, FETCH_PLANETS_FAILURE, FETCH_PLANETS_SUCCESS, FETCH_PLANETS_CANCELED}
+  from "../constants/actions";
+
+export const initialState = {
   planets: [],
   isLoading: false,
   isError: false,
   isCancel: false,
 };
 
-export default function planets(state = initialState, action) {
+export function planetsReducer(state = initialState, action) {
   switch (action.type) {
     case FETCH_PLANETS_REQUEST:
       return {
-        // planets: [],
+        ...state,
         isLoading: true,
         isError: false,
         isCancel: false,
@@ -26,6 +24,7 @@ export default function planets(state = initialState, action) {
       const planets = action.payload;
 
       return {
+        ...state,
         planets: planets,
         isLoading: false,
       };
@@ -33,14 +32,14 @@ export default function planets(state = initialState, action) {
 
     case FETCH_PLANETS_FAILURE:
       return {
-        // planets: [],
+        ...state,
         isLoading: false,
         isError: true,
       };
 
     case FETCH_PLANETS_CANCELED:
       return {
-        // planets: [],
+        ...state,
         isLoading: false,
         isCancel: true,
       };
@@ -48,4 +47,54 @@ export default function planets(state = initialState, action) {
     default:
       return state;
   }
+}
+
+const planetsLoading = () => ({
+  type: FETCH_PLANETS_REQUEST,
+});
+const planetsCanceled = () => ({
+  type: FETCH_PLANETS_CANCELED,
+});
+
+const planetsLoaded = (planets) => ({
+  type: FETCH_PLANETS_SUCCESS,
+  payload: planets,
+});
+
+const planetsLoadingError = (reason) => ({
+  type: FETCH_PLANETS_FAILURE,
+  payload: reason,
+});
+
+const source = axios.CancelToken.source();
+
+export const fetchPlanets = (baseURL) => (dispatch) => {
+  dispatch(planetsLoading());
+
+  axios.get(baseURL, {cancelToken: source.token})
+    .then(res => {
+      console.log(res.data.results);
+      dispatch(planetsLoaded(res.data.results));
+    })
+    .catch(error => {
+
+      if (axios.isCancel(error)) {
+        console.info('Request canceled', error.message);
+        dispatch(planetsCanceled());
+      } else {
+
+        dispatch(planetsLoadingError('Server Error'));
+        if (error.response) {
+          console.error(error.response.data);
+        } else if (error.request) {
+          console.error(error.request);
+        } else {
+          console.error('Error', error.message);
+        }
+      }
+    });
 };
+
+export function cancelPlanetsRequest() {
+  source.cancel();
+}

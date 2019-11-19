@@ -1,14 +1,18 @@
 import React, {useReducer} from 'react';
 import {planetsReducer, initialState} from '../../reducers/planets';
 import uuidv1 from 'uuid/v1';
+
 import PlanetItem from "../PlanetItem/PlanetItem";
 import ErrorIndicator from "../ErrorIndicator/ErrorIndicator";
 import Spinner from "../Spinner/Spinner";
+
 import './PlanetList.css';
 
 
 function PlanetListUI() {
-  const [state] = useReducer(planetsReducer, initialState);
+  let [state] = useReducer(planetsReducer, initialState);
+  
+  console.log(state);
 
   const errorMessage = state.isError ? <ErrorIndicator/> : null;
   const loadingMessage = state.isLoading ? <Spinner/> : null;

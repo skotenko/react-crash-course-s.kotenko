@@ -1,8 +1,11 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-import Actions from "./components/Actions/Actions";
+import Actions from "./components/ActionsList/Actions";
 import PlanetList from "./components/PlanetList/PlanetList";
+
+import store from './store';
+
+import './App.css';
+import logo from './logo.svg';
 
 class App extends React.Component {
   render() {

@@ -66,33 +66,38 @@ const planetsLoadingError = (reason) => ({
   payload: reason,
 });
 
-const source = axios.CancelToken.source();
+let source;
 
-export const fetchPlanets = (baseURL) => (dispatch) => {
-  dispatch(planetsLoading());
+export const fetchPlanets = (baseURL) => (dispatch, store) => {
+  const state = store.getState();
 
-  axios.get(baseURL, {cancelToken: source.token})
-    .then(res => {
-      console.log(res.data.results);
-      dispatch(planetsLoaded(res.data.results));
-    })
-    .catch(error => {
+  if (!state.planetsReducer.isLoading) {
+    dispatch(planetsLoading());
 
-      if (axios.isCancel(error)) {
-        console.info('Request canceled', error.message);
-        dispatch(planetsCanceled());
-      } else {
+    source = axios.CancelToken.source(); // Save token for cancel of current request
 
-        dispatch(planetsLoadingError('Server Error'));
-        if (error.response) {
-          console.error(error.response.data);
-        } else if (error.request) {
-          console.error(error.request);
+    axios.get(baseURL, {cancelToken: source.token})
+      .then(res => {
+        dispatch(planetsLoaded(res.data.results));
+      })
+      .catch(error => {
+
+        if (axios.isCancel(error)) {
+          console.info('Request canceled', error);
+          dispatch(planetsCanceled());
         } else {
-          console.error('Error', error.message);
+
+          dispatch(planetsLoadingError('Server Error'));
+          if (error.response) {
+            console.error(error.response.data);
+          } else if (error.request) {
+            console.error(error.request);
+          } else {
+            console.error('Error', error.message);
+          }
         }
-      }
-    });
+      });
+  }
 };
 
 export function cancelPlanetsRequest() {

@@ -1,6 +1,7 @@
 import axios from "axios";
 
 import * as types from "../actions/actionTypes";
+import * as actions from "../actions/actions";
 
 export const initialState = {
   planets: [],
@@ -50,49 +51,32 @@ export function planetsReducer(state = initialState, action) {
   }
 }
 
-const planetsLoading = () => ({
-  type: types.FETCH_PLANETS_REQUEST,
-});
-const planetsCanceled = () => ({
-  type: types.FETCH_PLANETS_CANCELED,
-});
-
-const planetsLoaded = (planets) => ({
-  type: types.FETCH_PLANETS_SUCCESS,
-  payload: planets,
-});
-
-const planetsLoadingError = (reason) => ({
-  type: types.FETCH_PLANETS_FAILURE,
-  payload: reason,
-});
-
 let source;
 
 export const fetchPlanets = (baseURL) => (dispatch, store) => {
   const state = store.getState();
 
   if (!state.planetsReducer.isLoading) {
-    dispatch(planetsLoading());
+    dispatch(actions.planetsLoading());
 
     source = axios.CancelToken.source(); // Save token for cancel of current request
 
     axios.get(baseURL, {cancelToken: source.token})
       .then(res => {
-        dispatch(planetsLoaded(res.data.results));
+        dispatch(actions.planetsLoaded(res.data.results));
       })
       .catch(error => {
         if (axios.isCancel(error)) {
-          dispatch(planetsCanceled());
+          dispatch(actions.planetsCanceled());
         } else {
           if (error.response) {
-            dispatch(planetsLoadingError('Response error'));
+            dispatch(actions.planetsLoadingError('Response error'));
             console.error(error.response.data);
           } else if (error.request) {
-            dispatch(planetsLoadingError('Request error'));
+            dispatch(actions.planetsLoadingError('Request error'));
             console.error(error.request);
           } else {
-            dispatch(planetsLoadingError('Error'));
+            dispatch(actions.planetsLoadingError('Error'));
             console.error('Error', error.message);
           }
         }

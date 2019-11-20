@@ -7,15 +7,14 @@
     min-width: 150px;
     padding: .5em .75em;
     border: 1px solid transparent;
-    background: #09d3ac;
+    background: rgb(9, 211, 172);
     color: #000;
-    transition: transform .3s, box-shadow .3s;
+    transition: background-color .3s;
 }
 
 .action:hover,
 .action:focus {
-    transform: translate(2px, -2px);
-    box-shadow: -2px 2px 2px 0 rgba(255, 255, 255, 0.5);
+    background-color: rgba(9, 211, 172, .8);
 }
 
 .action:not(:first-child) {

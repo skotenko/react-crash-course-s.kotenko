@@ -6,7 +6,7 @@ import {FETCH_PLANETS_REQUEST, FETCH_PLANETS_FAILURE, FETCH_PLANETS_SUCCESS, FET
 export const initialState = {
   planets: [],
   isLoading: false,
-  isError: false,
+  error: null,
   isCancel: false,
 };
 
@@ -16,7 +16,7 @@ export function planetsReducer(state = initialState, action) {
       return {
         ...state,
         isLoading: true,
-        isError: false,
+        error: null,
         isCancel: false,
       };
 
@@ -30,12 +30,14 @@ export function planetsReducer(state = initialState, action) {
       };
     }
 
-    case FETCH_PLANETS_FAILURE:
+    case FETCH_PLANETS_FAILURE: {
+      const error = action.payload;
       return {
         ...state,
         isLoading: false,
-        isError: true,
+        error: error,
       };
+    }
 
     case FETCH_PLANETS_CANCELED:
       return {
@@ -81,18 +83,17 @@ export const fetchPlanets = (baseURL) => (dispatch, store) => {
         dispatch(planetsLoaded(res.data.results));
       })
       .catch(error => {
-
         if (axios.isCancel(error)) {
-          console.info('Request canceled', error);
           dispatch(planetsCanceled());
         } else {
-
-          dispatch(planetsLoadingError('Server Error'));
           if (error.response) {
+            dispatch(planetsLoadingError('Response error'));
             console.error(error.response.data);
           } else if (error.request) {
+            dispatch(planetsLoadingError('Request error'));
             console.error(error.request);
           } else {
+            dispatch(planetsLoadingError('Error'));
             console.error('Error', error.message);
           }
         }

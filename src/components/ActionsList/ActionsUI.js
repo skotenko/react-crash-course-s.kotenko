@@ -1,7 +1,7 @@
 import React from 'react';
 import {useDispatch, useStore} from 'react-redux';
 
-import {fetchPlanets, cancelPlanetsRequest} from '../../reducers/planets';
+import {fetchPlanets, cancelPlanetsRequest} from '../../store/swapi.co/reducers/planets';
 
 import './Actions.css'
 

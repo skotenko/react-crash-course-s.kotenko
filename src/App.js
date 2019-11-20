@@ -6,7 +6,7 @@ import AlertTemplate from 'react-alert-template-basic';
 import Actions from './components/ActionsList/Actions';
 import PlanetListUI from './components/PlanetList/PlanetListUI';
 
-import store from './store';
+import store from './store/store';
 
 import './App.css';
 import logo from './logo.svg';

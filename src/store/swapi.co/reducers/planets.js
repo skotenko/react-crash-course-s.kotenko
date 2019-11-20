@@ -1,7 +1,6 @@
 import axios from "axios";
 
-import {FETCH_PLANETS_REQUEST, FETCH_PLANETS_FAILURE, FETCH_PLANETS_SUCCESS, FETCH_PLANETS_CANCELED}
-  from "../../../constants/actions";
+import * as types from "../actions/actionTypes";
 
 export const initialState = {
   planets: [],
@@ -12,7 +11,7 @@ export const initialState = {
 
 export function planetsReducer(state = initialState, action) {
   switch (action.type) {
-    case FETCH_PLANETS_REQUEST:
+    case types.FETCH_PLANETS_REQUEST:
       return {
         ...state,
         isLoading: true,
@@ -20,7 +19,7 @@ export function planetsReducer(state = initialState, action) {
         isCancel: false,
       };
 
-    case FETCH_PLANETS_SUCCESS: {
+    case types.FETCH_PLANETS_SUCCESS: {
       const planets = action.payload;
 
       return {
@@ -30,7 +29,7 @@ export function planetsReducer(state = initialState, action) {
       };
     }
 
-    case FETCH_PLANETS_FAILURE: {
+    case types.FETCH_PLANETS_FAILURE: {
       const error = action.payload;
       return {
         ...state,
@@ -39,7 +38,7 @@ export function planetsReducer(state = initialState, action) {
       };
     }
 
-    case FETCH_PLANETS_CANCELED:
+    case types.FETCH_PLANETS_CANCELED:
       return {
         ...state,
         isLoading: false,
@@ -52,19 +51,19 @@ export function planetsReducer(state = initialState, action) {
 }
 
 const planetsLoading = () => ({
-  type: FETCH_PLANETS_REQUEST,
+  type: types.FETCH_PLANETS_REQUEST,
 });
 const planetsCanceled = () => ({
-  type: FETCH_PLANETS_CANCELED,
+  type: types.FETCH_PLANETS_CANCELED,
 });
 
 const planetsLoaded = (planets) => ({
-  type: FETCH_PLANETS_SUCCESS,
+  type: types.FETCH_PLANETS_SUCCESS,
   payload: planets,
 });
 
 const planetsLoadingError = (reason) => ({
-  type: FETCH_PLANETS_FAILURE,
+  type: types.FETCH_PLANETS_FAILURE,
   payload: reason,
 });
 

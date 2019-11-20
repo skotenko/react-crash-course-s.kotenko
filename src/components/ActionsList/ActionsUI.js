@@ -11,7 +11,8 @@ function ActionsUI() {
 
   return (
     <div className="Actions">
-      <button onClick={() => fetchPlanets('https://swapi.co/api/planets/')(dispatch, store)} className="action">Load
+      <button onClick={() => fetchPlanets('https://swapi.co/api/planets/')(dispatch, store)} className="action">
+        Load
       </button>
       <button onClick={() => cancelPlanetsRequest()} className="action">Cancel Request</button>
     </div>
